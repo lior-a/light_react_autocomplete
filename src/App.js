@@ -1,23 +1,39 @@
-import logo from './logo.svg';
+/**
+ * Developer comment:
+ * - This file ia the "DEMO" page.
+ * - The autocomplete should be exported as a package or part of a UI library (./src/autocomplete).
+ */
+import Autocomplete from './autocomplete';
 import './App.css';
+// import axios from 'axios'; // example with fetch
+import mock from './mock';
+
+let asyncMock = () => Promise.resolve({data: mock});
+// let asyncMock = () => axios.get('http://localhost:3004/names');
 
 function App() {
+
+  let autocompleteStyle = {
+    width: 300
+  }
+
+  let listStyle = {
+    width: 330
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app-containers">
+        <h1>Example page of autocomplete</h1>
+        <Autocomplete
+            asyncCall={asyncMock}
+            onSubmit={(e,selectedItem) => console.log('submit form!', e,selectedItem)}
+            autocompleteStyle={autocompleteStyle}
+            listStyle={listStyle}
+            inputToRender={(params) => <input type="text"
+              {...params}
+            />
+        }
+        />
     </div>
   );
 }

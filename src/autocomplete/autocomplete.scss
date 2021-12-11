@@ -1,0 +1,51 @@
+$border-color: #484848;
+
+.autocomplete-container {
+    position: relative;
+
+    .autocomplete-list {
+        overflow: auto;
+        border: 1px solid $border-color;
+        border-top: 0;
+        padding: 0;
+        margin: -1px 0 0 0;
+        background-color: #fff;
+        border-bottom-right-radius: 5px;
+        border-bottom-left-radius: 5px;
+        padding-bottom: 8px;
+        display: none;
+        
+        li {
+            list-style: none;
+            padding: 5px 15px;
+            position: relative;
+            background-color: #fff;
+
+            &.selected {
+                background-color: #c0c0c0;
+            }
+
+            &:hover {
+                background-color: #dbdbdb;
+            }
+        }
+    }
+
+    .autocomplete-input {
+        width: 100%;
+        line-height: 30px;
+        padding: 0 15px;
+        font-size: 16px;
+        border: 1px solid $border-color;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        &:focus +.autocomplete-list {
+            display: inline-block;
+        }
+    }
+}
