@@ -4,7 +4,7 @@ import { MemoizedHighlight } from './Highlight';
 import './autocomplete.scss';
 
 let cache = new Map();
-const MAX_RESULTS = 10;
+const MAX_RESULTS = 30;
 
 const Autocomplete = ({autocompleteStyle, listStyle, asyncCall, onSubmit, inputToRender}) => {
     const [filteredData, setFilteredData] = useState([]);
@@ -54,17 +54,18 @@ const Autocomplete = ({autocompleteStyle, listStyle, asyncCall, onSubmit, inputT
         const KEY_CODE_UP = 38;
         const KEY_CODE_ENTER = 13;
         const keyDataAttr = e.target.getAttribute('data-key');
-        const newItemIndex = keyDataAttr >= 0 && keyDataAttr !== null ? keyDataAttr : selectedItemIndex;
+        const itemIndex = keyDataAttr >= 0 && keyDataAttr !== null ? keyDataAttr : selectedItemIndex;
         const eventType = e.type;
         const MaxResults = Math.min(filteredData.length, MAX_RESULTS);
+        let newItemIndex = selectedItemIndex;
 
         if(e.keyCode === KEY_CODE_UP) {
             e.preventDefault(); // hack: prevent native behaviour of cursor to jump to the beginning of the word
 
             if(selectedItemIndex < 0) {
-                setSelectedItemIndex(MaxResults-1);
+                newItemIndex = MaxResults-1;
             } else {
-                setSelectedItemIndex(newItemIndex-1);
+                newItemIndex = itemIndex-1;
             }
 
         }
@@ -74,19 +75,39 @@ const Autocomplete = ({autocompleteStyle, listStyle, asyncCall, onSubmit, inputT
 
             
             if(selectedItemIndex > MaxResults-1) {
-                setSelectedItemIndex(0);
+                newItemIndex = 0;
             } else {
-                setSelectedItemIndex(newItemIndex+1);
+                newItemIndex = itemIndex+1;
             }
         }
 
         if(e.keyCode === KEY_CODE_ENTER || eventType === 'mousedown') {
-            const text = (!filteredData[newItemIndex]) ? autocompleteInputRef.current.value : filteredData[newItemIndex];
+            const text = (!filteredData[itemIndex]) ? autocompleteInputRef.current.value : filteredData[itemIndex];
 
             setShouldShowAutocompleteList(false);
 
             onSubmit(e, text);
             autocompleteInputRef.current.value = text;
+        }
+
+        setSelectedItemIndex(newItemIndex)
+
+        handleScrollBehaviour(newItemIndex);
+    }
+
+    const handleScrollBehaviour = (newItemIndex) => {
+        const totalListHeight = autocompleteElmRef?.current?.offsetHeight;
+        const singleItemHeight = autocompleteElmRef?.current?.children[0]?.offsetHeight;
+        const startViewPosition = autocompleteElmRef?.current?.scrollTop;
+        const endViewPosition = autocompleteElmRef?.current?.scrollTop+totalListHeight;
+        const nextPosition = singleItemHeight*(newItemIndex+1);
+        const prevPosition = singleItemHeight*(newItemIndex);
+        
+        if(prevPosition <= startViewPosition) {
+            autocompleteElmRef.current.scrollTop = (newItemIndex)*singleItemHeight;
+        }
+        if(nextPosition >= endViewPosition) {
+            autocompleteElmRef.current.scrollTop = (newItemIndex+1)*singleItemHeight-totalListHeight;
         }
     }
 
