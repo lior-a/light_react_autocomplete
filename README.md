@@ -1,3 +1,7 @@
+# Light React Autocomplete Open Source
+
+![Autocomplete gif](ac-demo.gif)
+
 # How to run project
 
 1. cd /storybook/
