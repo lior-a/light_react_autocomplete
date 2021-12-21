@@ -1,13 +1,16 @@
 # How to run project
 
-1. npm install
-2. npm start
-3. open http://localhost:3000/
+1. cd /storybook/
+2. npm i
+3. npm run storybook
+4. open http://localhost:6006/ 
+5. work inside storybook/stories/LightAutocomplete
 
-Important developer notes:
-1. app.js is our "demo" page and src/autocomplete is our component with 2 examples of functional and class component. 
-2. in production we'll want to bundle, build and export /src/autocomplete and of course choose functional or class component as our design.
-3. inside src/autocomplete we have functionalcomponentAC.js and classComponentAC.js (it's the bonus, in production ready we'll have one of those. not two)
+Publish a new version
+1. npm i
+2. edit package.json and bump a version
+3. npm run build (this command execute production build with webpack and puts the files at dist folder)
+4. npm publish
 
 
 # Run json mock api server
@@ -16,3 +19,32 @@ Important developer notes:
 3. npm start
 4. curl http://localhost:3004/names
 5. change /src/app lines with axios to fetch data from json server
+
+# How to use LightAutocomplete
+1. npm install light-react-autocomplete
+2. write use this example:
+
+```
+let mock = ['user1' , 'user 2'];
+let asyncMock = () => Promise.resolve({data: mock});
+
+let autocompleteStyle = {
+  width: 300
+}
+
+let listStyle = {
+  width: 330
+}
+const myComp = () => {
+    return <LightAutocomplete
+    asyncCall={asyncMock}
+    onSubmit={(e,selectedItem) => console.log('submit form!', e,selectedItem)}
+    autocompleteStyle={autocompleteStyle}
+    listStyle={listStyle}
+    inputToRender={(params) => <input type="text"
+            {...params}
+        />
+        }
+    />
+}
+```

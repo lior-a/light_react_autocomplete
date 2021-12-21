@@ -1,7 +1,8 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { unmountComponentAtNode } from 'react-dom'
 import Autocomplete from './index';
-import mock from '../mock';
+import mock from '../../demo_page/src/mock';
+import React from 'react';
 
 let asyncMock = () => Promise.resolve({data: mock});
 
@@ -39,11 +40,11 @@ afterEach(() => {
 });
 
 describe("Search in autocomplete", () => {
-    test('typing text in autocomplete input and check the number of results dose not exceed 10', async () => {
+    test('typing text in autocomplete input and check the number of results dose not exceed 30', async () => {
         const inputElm = screen.getByTestId('autocomplete-input');
         fireEvent.change(inputElm, {target: {value: 'aa'}});
         
-        await waitFor(() => expect(screen.getAllByTestId('autocomplete-single-item').length).toBe(10));
+        await waitFor(() => expect(screen.getAllByTestId('autocomplete-single-item').length).toBe(30));
     });
 
     test('typing text in autocomplete input and check the number of results should be 1', async () => {
@@ -130,7 +131,7 @@ describe("Search in autocomplete", () => {
                 key: 'Enter',
                 code: 'Enter'
             });
-            return expect(input.value).toBe('Aaren')
+            return expect(input.value).toBe('Abdur')
         });
     });
 

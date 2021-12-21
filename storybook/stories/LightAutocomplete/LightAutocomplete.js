@@ -1,12 +1,12 @@
 import React, { useState, useRef } from 'react';
-import { debounce, matchQuery, autocompleteDefaultStyle, listDefaultStyle } from '../utils';
+import { debounce, matchQuery, autocompleteDefaultStyle, listDefaultStyle } from './utils';
 import { MemoizedHighlight } from './Highlight';
-import './autocomplete.scss';
+import './LightAutocomplete.css';
 
 let cache = new Map();
 const MAX_RESULTS = 30;
 
-const Autocomplete = ({autocompleteStyle, listStyle, asyncCall, onSubmit, inputToRender}) => {
+const LightAutocomplete = ({autocompleteStyle, listStyle, asyncCall, onSubmit, inputToRender}) => {
     const [filteredData, setFilteredData] = useState([]);
     const [selectedItemIndex, setSelectedItemIndex] = useState(0);
     const [shouldShowAutocompleteList, setShouldShowAutocompleteList] = useState(false);
@@ -142,4 +142,4 @@ const Autocomplete = ({autocompleteStyle, listStyle, asyncCall, onSubmit, inputT
     )
 }
 
-export default Autocomplete;
+export default LightAutocomplete;
