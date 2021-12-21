@@ -2,7 +2,6 @@
 
 # dependencies
 /node_modules
-/json-mock-api/node_modules
 /.pnp
 .pnp.js
 
